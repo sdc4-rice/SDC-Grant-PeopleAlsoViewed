@@ -55,7 +55,9 @@ test('read query on alsovieweditems should return object with colomn names as pr
   function callback(err, results) {
     var json = JSON.parse(JSON.stringify(results[0]));
     var expectedKeys = ['id', 'image', 'title', 'oldprice', 'currentprice', 'freeshipping', 'shippingcost'];
+
     expect(Object.keys(json)).toEqual(expect.arrayContaining(expectedKeys));
+
     dbConnection.end();
     done();
   }
