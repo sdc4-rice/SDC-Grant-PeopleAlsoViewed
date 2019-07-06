@@ -19,7 +19,6 @@ test('database connection error to equal null', done => {
 test('database alsoviewed should have table named alsovieweditems', done => {
   function callback(err, results) {
     expect(results[0]["Tables_in_alsoviewed"]).toBe('alsovieweditems');
-    //dbConnection.end();
     done();
   }
 
