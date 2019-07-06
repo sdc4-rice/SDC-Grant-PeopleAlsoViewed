@@ -8,30 +8,30 @@ var dbConnection = mysql.createConnection({
 
 
 test('database connection error to equal null', done => {
-  function callback(err) {
+  var callback = function (err) {
     expect(err).toBeNull();
     done();
-  }
+  };
   dbConnection.connect(callback);
 });
 
 
 test('database alsoviewed should have table named alsovieweditems', done => {
-  function callback(err, results) {
-    expect(results[0]["Tables_in_alsoviewed"]).toBe('alsovieweditems');
+  var callback = function (err, results) {
+    expect(results[0]['Tables_in_alsoviewed']).toBe('alsovieweditems');
     done();
-  }
+  };
 
   var queryString = 'show tables';
   var queryArgs = [];
-  dbConnection.query(queryString, queryArgs,callback);
+  dbConnection.query(queryString, queryArgs, callback);
 });
 
 test('seeding database should result into 100 entries in alsoviweditems table', done => {
-  function callback(err, results) {
+  var callback = function (err, results) {
     expect(results.length).toBe(100);
     done();
-  }
+  };
 
   var queryString = 'select * from alsovieweditems';
   var queryArgs = [];
@@ -40,11 +40,11 @@ test('seeding database should result into 100 entries in alsoviweditems table', 
 
 
 test('alsovieweditems should have entry with id 1', done => {
-  function callback(err, results) {
+  var callback = function (err, results) {
     var json = JSON.parse(JSON.stringify(results[0]));
     expect(json.id).toBe(1);
     done();
-  }
+  };
 
   var queryString = 'select * from alsovieweditems where id = 1';
   var queryArgs = [];
@@ -52,7 +52,7 @@ test('alsovieweditems should have entry with id 1', done => {
 });
 
 test('read query on alsovieweditems should return object with colomn names as properties', done => {
-  function callback(err, results) {
+  var callback = function (err, results) {
     var json = JSON.parse(JSON.stringify(results[0]));
     var expectedKeys = ['id', 'image', 'title', 'oldprice', 'currentprice', 'freeshipping', 'shippingcost'];
 
@@ -60,7 +60,7 @@ test('read query on alsovieweditems should return object with colomn names as pr
 
     dbConnection.end();
     done();
-  }
+  };
 
   var queryString = 'select * from alsovieweditems where id = 1';
   var queryArgs = [];
