@@ -1,6 +1,7 @@
 var mysql = require("mysql");
 var Faker = require ("Faker");
 
+
 var dbConnection = mysql.createConnection({
   user: 'root', // FILL IN WITH YOUR USERNAME
   password: '', // FILL IN WITH YOUR PASSWORD
@@ -35,7 +36,9 @@ var getItemTitle = function () {
 var getOldPrice = function () {
 
   var oldPriceToken = Math.round( Math.random() * 10 );
-
+  // not all items have discounted price
+  // based on randomly generated token it will generate old price
+  // if token is greater than 5 generate old price otherwise null
   if (oldPriceToken > 5) {
     return parseFloat((Math.random() * (10000 - 10)).toFixed(2));
   } else {
@@ -47,15 +50,16 @@ var getOldPrice = function () {
 /// if oldprice is not null generates current price based of old price
 /// else generates random current price between 10 to 10,000
 var getCurrentPrice = function (oldPrice) {
+  // generates discount token
+  var discountToken = Math.round( Math.random() * 10 );
 
-  var currentPriceToken = Math.round( Math.random() * 10 );
-
-  if (currentPriceToken < 5) {
-    currentPriceToken = currentPriceToken + 4;
+  if (discountToken < 5) {
+    // discount has to be less than 50 % hence adding 4
+    discountToken = discountToken + 4;
   }
 
   if (oldPrice) {
-    return parseFloat((oldPrice - (oldPrice * (currentPriceToken / 100))).toFixed(2));
+    return parseFloat((oldPrice - (oldPrice * (discountToken / 100))).toFixed(2));
   } else {
     return parseFloat((Math.random() * (10000 - 10)).toFixed(2));
   }
@@ -106,9 +110,4 @@ dbConnection.query(queryString, [queryArgs], function(err) {
   console.log('seeding data completed closing database connection');
   dbConnection.end();
 });
-
-
-
-
-
 
