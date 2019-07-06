@@ -4,6 +4,7 @@
   "description": "People who viewed this item also viewed",
   "main": ".eslintrc.js",
   "scripts": {
+    "seed": "node seedAlsoViewed.js",
     "test": "jest"
   },
   "repository": {
@@ -21,6 +22,7 @@
     "mysql": "^2.17.1"
   },
   "devDependencies": {
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "jest": "^24.8.0"
   }
 }
