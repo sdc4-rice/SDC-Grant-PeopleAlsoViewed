@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var Faker = require ('Faker');
+var faker = require ('faker');
 
 
 var dbConnection = mysql.createConnection ({
@@ -27,7 +27,8 @@ dbConnection.query('truncate alsovieweditems', function(err) {
 
 /// generates random product company / brand name
 var getItemTitle = function () {
-  return Faker.Company.companyName();
+  //return faker.Company.companyName();
+  return faker.commerce.productName();
 };
 
 /// generates random old price between 10 to 10,000
@@ -60,8 +61,8 @@ var getCurrentPrice = function (oldPrice) {
 };
 
 /// uses https://picsum.photos/
-var getImageUrl = function () {
-  return 'https://picsum.photos/200/300';
+var getImageUrl = function (id) {
+  return 'https://picsum.photos/id/' + id + '/200/300';
 };
 
 /// randomly returns free shipping true or false
@@ -70,8 +71,8 @@ var getFreeShipping = function () {
 };
 
 /// based on free shipping true or false returns random shipping cost under 100
-var getShippingCost = function (freeSheeping) {
-  if (!freeSheeping) {
+var getShippingCost = function (freeShipping) {
+  if (!freeShipping) {
     return parseFloat((Math.random() * (100 - 10)).toFixed(2));
   } else {
     return null;
@@ -83,7 +84,7 @@ var seedAlsoViewedItems = [];
 
 for (var i = 1; i < 101; i++) {
   var id = i;
-  var image = getImageUrl();
+  var image = getImageUrl(i);
   var title = getItemTitle();
   var oldPrice = getOldPrice();
   var currentPrice = getCurrentPrice(oldPrice);
