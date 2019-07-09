@@ -12,6 +12,7 @@ app.use(bodyparser.urlencoded({extended: true}));
 
 //app.use(express.static(__dirname + '' ));
 
+
 app.get('/api/alsovieweditems', (req, res) => {
 
   var queryString = 'select * from alsovieweditems';
