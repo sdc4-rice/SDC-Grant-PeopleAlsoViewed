@@ -1,0 +1,27 @@
+{
+  "name": "peoplealsoviewed",
+  "version": "1.0.0",
+  "description": "People who viewed this item also viewed",
+  "scripts": {
+    "seed": "node seedAlsoViewed.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fec4-gandolf/PeopleAlsoViewed.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fec4-gandolf/PeopleAlsoViewed/issues"
+  },
+  "homepage": "https://github.com/fec4-gandolf/PeopleAlsoViewed#readme",
+  "dependencies": {
+    "faker": "^4.1.0",
+    "mysql": "^2.17.1"
+  },
+  "devDependencies": {
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
+    "jest": "^24.8.0"
+  }
+}
