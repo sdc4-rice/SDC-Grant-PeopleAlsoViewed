@@ -1,17 +1,11 @@
 const express = require('express');
-const bodyparser = require('body-parser');
 const db = require('./db/index.js');
 
 const app = express();
 
 app.set('port', 3004);
 
-app.use(bodyparser.json());
-
-app.use(bodyparser.urlencoded({extended: true}));
-
 //app.use(express.static(__dirname + '' ));
-
 
 app.get('/api/alsovieweditems', (req, res) => {
 
