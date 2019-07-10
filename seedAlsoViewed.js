@@ -1,7 +1,6 @@
 var mysql = require('mysql');
 var faker = require ('faker');
 
-
 var dbConnection = mysql.createConnection ({
   user: 'root', // FILL IN WITH YOUR USERNAME
   password: '', // FILL IN WITH YOUR PASSWORD
@@ -20,14 +19,13 @@ dbConnection.query('truncate alsovieweditems', function(err) {
   if (err) {
     console.log(err);
   } else {
-    console.log('truncated table \'alsovieweditems\' before seeding' + err);
+    console.log('truncated table \'alsovieweditems\' before seeding');
   }
 });
 
 
 /// generates random product company / brand name
 var getItemTitle = function () {
-  //return faker.Company.companyName();
   return faker.commerce.productName();
 };
 
@@ -79,6 +77,11 @@ var getShippingCost = function (freeShipping) {
   }
 };
 
+/// generates random categoryId between 1 to 8 and assigns it to item
+var getCategoryId = function () {
+  return faker.random.number({min: 1, max: 8});
+};
+
 ///generate seed data with id 1 to given
 var seedAlsoViewedItems = [];
 
@@ -90,13 +93,14 @@ for (var i = 1; i < 101; i++) {
   var currentPrice = getCurrentPrice(oldPrice);
   var freeSheeping = getFreeShipping();
   var shippingCost = getShippingCost(freeSheeping);
+  var categoryId = getCategoryId();
 
-  seedAlsoViewedItems.push([id, image, title, oldPrice, currentPrice, freeSheeping, shippingCost]);
+  seedAlsoViewedItems.push([id, image, title, oldPrice, currentPrice, freeSheeping, shippingCost, categoryId]);
 }
 
 
 /// insert seed data
-var queryString = 'insert into alsovieweditems (id, image, title, oldprice, currentprice, freeshipping, shippingcost) values ?';
+var queryString = 'insert into alsovieweditems (id, image, title, oldprice, currentprice, freeshipping, shippingcost, categoryid) values ?';
 var queryArgs = seedAlsoViewedItems;
 
 dbConnection.query(queryString, [queryArgs], function(err) {
