@@ -57,19 +57,39 @@ test('GET request should return image property set to https://picsum.photos/id/1
     });
 });
 
-test('GET request on /api/alsovieweditems/id/10 should return item with id = 10', done => {
-
+test('GET request for /api/alsovieweditems/categoryids should return all category ids assigned to items', done => {
   request(app)
-    .get('/api/alsovieweditems/id/10')
+    .get('/api/alsovieweditems/categoryids')
     .expect('Content-Type', /json/)
     .expect(200)
     .end((err, res) => {
       if (err) {
         done(err);
       }
-      var expectedId = 10;
-      var actualId = res.body[0].id;
-      expect(actualId).toBe(expectedId);
+      var expectedCategoryIds = [1, 2, 3, 4, 5, 6, 7, 8];
+      for (var i = 0; i < res.body.length; i++) {
+        var actualCategoryId = res.body[i];
+        expect(expectedCategoryIds.includes(actualCategoryId)).toBeTruthy();
+      }
+      done();
+    });
+});
+
+test('GET request on /api/alsovieweditems/categoryid/5 should return list of items with categoryid = 5', done => {
+
+  request(app)
+    .get('/api/alsovieweditems/categoryid/5')
+    .expect('Content-Type', /json/)
+    .expect(200)
+    .end((err, res) => {
+      if (err) {
+        done(err);
+      }
+      var expectedCategoryId = 5;
+      for (var i = 0; i < res.body.length; i++) {
+        var actualCategoryId = res.body[i].categoryid;
+        expect(actualCategoryId).toBe(expectedCategoryId);
+      }
       done();
     });
 
