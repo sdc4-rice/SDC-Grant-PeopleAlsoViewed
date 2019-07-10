@@ -14,7 +14,8 @@ app.get('/api/alsovieweditems', (req, res) => {
 
   db.query(queryString, queryArgs, function(err, results) {
     if (err) {
-      res.json(err);
+      console.log(err);
+      res.status(500).send();
     } else {
       res.status(200).json(results);
     }
@@ -25,11 +26,12 @@ app.get('/api/alsovieweditems', (req, res) => {
 app.get('/api/alsovieweditems/id/:id', (req, res) => {
 
   var queryString = 'select * from alsovieweditems where id = ?';
-  var queryArgs = req.params.id.split(',');
+  var queryArgs = [req.params.id];
 
   db.query(queryString, queryArgs, function(err, results) {
     if (err) {
-      res.json(err);
+      console.log(err);
+      res.status(500).send();
     } else {
       res.status(200).json(results);
     }
@@ -44,7 +46,8 @@ app.get('/api/alsovieweditems/startid/:startId/endid/:endId', (req, res) => {
 
   db.query(queryString, queryArgs, function(err, results) {
     if (err) {
-      res.json(err);
+      console.log(err);
+      res.status(500).send();
     } else {
       res.status(200).json(results);
     }
