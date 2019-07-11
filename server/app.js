@@ -5,14 +5,13 @@ const app = express();
 
 app.set('port', 3004);
 
-//app.use(express.static(__dirname + '' ));
-/// returns all alsovieweditems
+// app.use(express.static(__dirname + '' ));
+// returns all alsovieweditems
 app.get('/api/alsovieweditems', (req, res) => {
+  const queryString = 'select * from alsovieweditems';
+  const queryArgs = [];
 
-  var queryString = 'select * from alsovieweditems';
-  var queryArgs = [];
-
-  db.query(queryString, queryArgs, function(err, results) {
+  db.query(queryString, queryArgs, (err, results) => {
     if (err) {
       console.log(err);
       res.status(500).send();
@@ -20,21 +19,20 @@ app.get('/api/alsovieweditems', (req, res) => {
       res.status(200).json(results);
     }
   });
-
 });
 
-/// returns all categoryids assigned to items
+// returns all categoryids assigned to items
 app.get('/api/alsovieweditems/categoryids', (req, res) => {
-  var queryString = 'select categoryid from alsovieweditems';
-  var queryArgs = [];
+  const queryString = 'select categoryid from alsovieweditems';
+  const queryArgs = [];
 
-  db.query(queryString, queryArgs, function(err, results) {
+  db.query(queryString, queryArgs, (err, results) => {
     if (err) {
       console.log(err);
       res.status(500).send();
     } else {
-      var categoryids = [];
-      for (var i = 0; i < results.length; i++) {
+      const categoryids = [];
+      for (let i = 0; i < results.length; i += 1) {
         if (!categoryids.includes(results[i].categoryid)) {
           categoryids.push(results[i].categoryid);
         }
@@ -44,13 +42,12 @@ app.get('/api/alsovieweditems/categoryids', (req, res) => {
   });
 });
 
-/// return list of items with given categoryid
+// return list of items with given categoryid
 app.get('/api/alsovieweditems/categoryid/:categoryId', (req, res) => {
+  const queryString = 'select * from alsovieweditems where categoryid = ?';
+  const queryArgs = [req.params.categoryId];
 
-  var queryString = 'select * from alsovieweditems where categoryid = ?';
-  var queryArgs = [req.params.categoryId];
-
-  db.query(queryString, queryArgs, function(err, results) {
+  db.query(queryString, queryArgs, (err, results) => {
     if (err) {
       console.log(err);
       res.status(500).send();
@@ -58,16 +55,14 @@ app.get('/api/alsovieweditems/categoryid/:categoryId', (req, res) => {
       res.status(200).json(results);
     }
   });
-
 });
 
-///returns items within given range
+// returns items within given range
 app.get('/api/alsovieweditems/startid/:startId/endid/:endId', (req, res) => {
+  const queryString = 'select * from alsovieweditems where id >= ? and id <= ?';
+  const queryArgs = [req.params.startId, req.params.endId];
 
-  var queryString = 'select * from alsovieweditems where id >= ? and id <= ?';
-  var queryArgs = [req.params.startId, req.params.endId];
-
-  db.query(queryString, queryArgs, function(err, results) {
+  db.query(queryString, queryArgs, (err, results) => {
     if (err) {
       console.log(err);
       res.status(500).send();
@@ -75,11 +70,10 @@ app.get('/api/alsovieweditems/startid/:startId/endid/:endId', (req, res) => {
       res.status(200).json(results);
     }
   });
-
 });
 
 app.listen(app.get('port'), () => {
-  console.log('peopleAlsoViewed is listening on : ' + app.get('port'));
+  console.log(`peopleAlsoViewed is listening on : ${app.get('port')}`);
 });
 
 module.exports = app;
