@@ -3,10 +3,10 @@ const mysql = require('mysql');
 const db = mysql.createConnection({
   user: 'root',
   password: '',
-  database: 'alsoviewed'
+  database: 'alsoviewed',
 });
 
-db.connect(function(err) {
+db.connect((err) => {
   if (err) {
     console.log(err);
   } else {
