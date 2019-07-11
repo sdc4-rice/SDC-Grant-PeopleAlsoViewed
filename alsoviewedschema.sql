@@ -12,6 +12,7 @@ CREATE TABLE alsovieweditems(
   currentprice decimal(10, 2) NOT NULL,
   freeshipping BOOLEAN,
   shippingcost decimal(10, 2),
+  categoryid INT NOT NULL,
   PRIMARY KEY (id)
 );
 
