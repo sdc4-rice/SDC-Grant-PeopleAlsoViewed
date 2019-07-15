@@ -3,18 +3,6 @@ import ReactDOM from 'react-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 // import sampleAlsoViewedItems from './sampleAlsoViewed.js'
 import AlsoViewedItemsCard from './components/AlsoViewedItemsCard.jsx';
-// "import/extensions": ['error', 'always', {ignorePackages: true} ],
-// ,
-//   rules: {
-//     "import/extensions": ["off", "never"],
-//     "import/no-named-as-default": "off",
-//     "import/no-unresolved": "off",
-//     "no-undef": "off",
-//     "prefer-template": "off",
-//     "no-console": "off",
-//     "react/forbid-prop-types": "off",
-//     "react/jsx-one-expression-per-line": "off"
-//   }
 
 const GlobalStyle = createGlobalStyle`
   body {
