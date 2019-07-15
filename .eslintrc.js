@@ -13,6 +13,7 @@ module.exports = {
     "prefer-template": "off",
     "no-console": "off",
     "react/forbid-prop-types": "off",
-    "react/jsx-one-expression-per-line": "off"
+    "react/jsx-one-expression-per-line": "off",
+    "react/self-closing-comp": "off"
   }
 };
