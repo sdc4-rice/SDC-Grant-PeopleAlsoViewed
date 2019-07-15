@@ -5,6 +5,7 @@
   "scripts": {
     "init:db": "mysql -u root -p < alsoviewedschema.sql",
     "seed:db": "node seedAlsoViewed.js",
+    "start": "server/app.js",
     "start:dev": "nodemon server/app.js",
     "react:dev": "webpack -d --watch",
     "test": "jest"
