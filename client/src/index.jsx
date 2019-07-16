@@ -44,4 +44,6 @@ const App = function () {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('alsoviewed'));
+
+export default App;
