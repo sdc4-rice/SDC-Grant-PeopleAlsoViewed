@@ -56,7 +56,7 @@ const getCurrentPrice = (oldPrice) => {
 };
 
 // uses https://picsum.photos/
-const getImageUrl = id => `https://picsum.photos/id/${id}/200/300`;
+const getImageUrl = id => `https://picsum.photos/id/${id}/200/200`;
 
 
 // randomly returns free shipping true or false
@@ -80,18 +80,19 @@ for (let i = 1; i < 101; i += 1) {
   const id = i;
   const image = getImageUrl(i);
   const title = getItemTitle();
+  const itemUrl = image;
   const oldPrice = getOldPrice();
   const currentPrice = getCurrentPrice(oldPrice);
   const freeSheeping = getFreeShipping();
   const shippingCost = getShippingCost(freeSheeping);
   const categoryId = getCategoryId();
 
-  seedAlsoViewedItems.push([id, image, title, oldPrice,
+  seedAlsoViewedItems.push([id, image, title, itemUrl, oldPrice,
     currentPrice, freeSheeping, shippingCost, categoryId]);
 }
 
 // insert seed data
-const queryString = 'insert into alsovieweditems (id, image, title, oldprice, currentprice, freeshipping, shippingcost, categoryid) values ?';
+const queryString = 'insert into alsovieweditems (id, image, title, itemUrl, oldprice, currentprice, freeshipping, shippingcost, categoryid) values ?';
 const queryArgs = seedAlsoViewedItems;
 
 dbConnection.query(queryString, [queryArgs], (err) => {

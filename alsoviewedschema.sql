@@ -8,6 +8,7 @@ CREATE TABLE alsovieweditems(
   id INT NOT NULL AUTO_INCREMENT,
   image VARCHAR(255),
   title VARCHAR(255),
+  itemurl VARCHAR(255),
   oldprice decimal(10, 2),
   currentprice decimal(10, 2) NOT NULL,
   freeshipping BOOLEAN,

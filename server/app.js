@@ -1,11 +1,13 @@
 const express = require('express');
+const path = require('path');
 const db = require('./db/index.js');
 
 const app = express();
 
 app.set('port', 3004);
 
-// app.use(express.static(__dirname + '' ));
+app.use(express.static(path.join(__dirname, '/../public')));
+
 // returns all alsovieweditems
 app.get('/api/alsovieweditems', (req, res) => {
   const queryString = 'select * from alsovieweditems';
@@ -15,8 +17,10 @@ app.get('/api/alsovieweditems', (req, res) => {
     if (err) {
       console.log(err);
       res.status(500).send();
+      res.end();
     } else {
       res.status(200).json(results);
+      res.end();
     }
   });
 });
@@ -30,6 +34,7 @@ app.get('/api/alsovieweditems/categoryids', (req, res) => {
     if (err) {
       console.log(err);
       res.status(500).send();
+      res.end();
     } else {
       const categoryids = [];
       for (let i = 0; i < results.length; i += 1) {
@@ -38,6 +43,7 @@ app.get('/api/alsovieweditems/categoryids', (req, res) => {
         }
       }
       res.status(200).json(categoryids);
+      res.end();
     }
   });
 });
@@ -51,8 +57,10 @@ app.get('/api/alsovieweditems/categoryid/:categoryId', (req, res) => {
     if (err) {
       console.log(err);
       res.status(500).send();
+      res.end();
     } else {
       res.status(200).json(results);
+      res.end();
     }
   });
 });
@@ -66,8 +74,10 @@ app.get('/api/alsovieweditems/startid/:startId/endid/:endId', (req, res) => {
     if (err) {
       console.log(err);
       res.status(500).send();
+      res.end();
     } else {
       res.status(200).json(results);
+      res.end();
     }
   });
 });

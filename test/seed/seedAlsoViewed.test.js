@@ -53,7 +53,7 @@ test('read query on alsovieweditems should return object with colomn names as pr
 
   dbConnection.query(queryString, queryArgs, (err, results) => {
     const json = JSON.parse(JSON.stringify(results[0]));
-    const expectedKeys = ['id', 'image', 'title', 'oldprice', 'currentprice', 'freeshipping', 'shippingcost', 'categoryid'];
+    const expectedKeys = ['id', 'image', 'title', 'itemurl', 'oldprice', 'currentprice', 'freeshipping', 'shippingcost', 'categoryid'];
 
     expect(Object.keys(json)).toEqual(expect.arrayContaining(expectedKeys));
 

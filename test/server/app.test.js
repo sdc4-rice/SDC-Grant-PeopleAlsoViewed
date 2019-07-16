@@ -19,7 +19,7 @@ test('GET request on /api/alsovieweditems should return 100 items', (done) => {
 });
 
 
-test('GET request on /api/alsovieweditems should return items with properties id, image, title, oldprice, currentprice, freeshipping, shippingcost', (done) => {
+test('GET request on /api/alsovieweditems should return items with properties id, image, title, itemurl, oldprice, currentprice, freeshipping, shippingcost', (done) => {
   request(app)
     .get('/api/alsovieweditems')
     .expect('Content-Type', /json/)
@@ -28,14 +28,14 @@ test('GET request on /api/alsovieweditems should return items with properties id
       if (err) {
         done(err);
       }
-      const expectedKeys = ['id', 'image', 'title', 'oldprice', 'currentprice', 'freeshipping', 'shippingcost'];
+      const expectedKeys = ['id', 'image', 'title', 'itemurl', 'oldprice', 'currentprice', 'freeshipping', 'shippingcost'];
       const actualKeys = Object.keys(res.body[0]);
       expect(actualKeys).toEqual(expect.arrayContaining(expectedKeys));
       done();
     });
 });
 
-test('GET request should return image property set to https://picsum.photos/id/1/200/300 for item with id = 1', (done) => {
+test('GET request should return image property set to https://picsum.photos/id/1/200/200 for item with id = 1', (done) => {
   request(app)
     .get('/api/alsovieweditems')
     .expect('Content-type', /json/)
@@ -44,7 +44,7 @@ test('GET request should return image property set to https://picsum.photos/id/1
       if (err) {
         done(err);
       }
-      const expectedImageUrl = 'https://picsum.photos/id/1/200/300';
+      const expectedImageUrl = 'https://picsum.photos/id/1/200/200';
       const actualImageUrl = res.body[0].image;
       expect(actualImageUrl).toBe(expectedImageUrl);
       done();
