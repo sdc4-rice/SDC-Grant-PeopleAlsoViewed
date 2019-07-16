@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const faker = require('faker');
+require('dotenv').config();
 
 const dbConnection = mysql.createConnection({
   user: 'root', // FILL IN WITH YOUR USERNAME
@@ -70,13 +71,17 @@ const getShippingCost = (freeShipping) => {
   return null;
 };
 
-// generates random categoryId between 1 to 8 and assigns it to item
-const getCategoryId = () => faker.random.number({ min: 1, max: 8 });
+// generates random categoryId between range provided in .env file otherwise default 1 to 10
+const startCategoryId = Number(process.env.START_CATEGORY_ID) || 1;
+const endCategoryId = Number(process.env.END_CATEGORY_ID) || 10;
+const getCategoryId = () => faker.random.number({ min: startCategoryId, max: endCategoryId });
 
-// generate seed data with id 1 to given
+// generate seed data with ids provided otherwise default from 101 to 200 to given
 const seedAlsoViewedItems = [];
+const startId = Number(process.env.START_ITEM_ID) || 101;
+const endId = Number(process.env.END_ITEM_ID) || 200;
 
-for (let i = 1; i < 101; i += 1) {
+for (let i = startId; i <= endId; i += 1) {
   const id = i;
   const image = getImageUrl(i);
   const title = getItemTitle();
