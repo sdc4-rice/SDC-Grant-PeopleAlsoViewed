@@ -18,6 +18,26 @@ People who viewed this item also viewed
 1. [Development](#development)
 
 ## Setup
+
+Create .env file in root folder of your project and specify following
+// set port number for express server
+PORT=3004
+
+// configure database
+MYSQL_DB_HOST=localhost
+MYSQL_DB_USERNAME=root
+MYSQL_DB_PASSWORD=
+MYSQL_DB_DATABASE=alsoviewed
+
+// specify total number of items to seed, with their start id, end id
+TOTAL_ITEMS=100
+START_ITEM_ID=101
+END_ITEM_ID=200
+
+// specify start category id and end category id to be allocated for items
+START_CATEGORY_ID=1
+END_CATEGORY_ID=20
+
 1 Run 'npm install' for installing project dependecnies,
 
 2 Make sure mysql server is running on your computer,
@@ -25,7 +45,7 @@ People who viewed this item also viewed
 3 Run command 'npm run init:db' to add required schema 'alsoviewedschema.sql' to your mysql
 database
 
-4 Run command 'npm run seed:db' to seed databse (database is seeded with 100 items with ids 1 to 100 and categoryids 1 to 8 which are randomly allocated to items),
+4 Run command 'npm run seed:db' to seed databse,
 
 5 Run command 'npm run start:dev' which starts express server listening on port number 3004 with nodemon alternative 'npm run start' will start the same without nodemon,
 
@@ -34,13 +54,13 @@ database
 7 Run command 'npm run test' which will run tests using Jest Testing Framework from test folder
 
 ## Usage
-1 Once the server is running user can access client page in brower at http://localhost:3004
+1 Once the server is running user can access client page in brower at `http://localhost:3004`
 
-2 User can specify id for ex. http://localhost:3004/?id=6 to get all 'also viewed items' from category id = 6
+2 User can specify id for ex. `http://localhost:3004/?id=6` to get all 'also viewed items' from category id = 6
 
 3 If no id is specified it takes default id = 1 (This option is just used for testing and integration)
 
-4 Presently database is setup with category ids between 1 to 8, if id = 11 is specified in http://localhost:3004/?id=11 then page displays message 'No items for category id : 11'
+4 Presently database is setup with category ids between 1 to 8, if id = 11 is specified in `http://localhost:3004/?id=11` then page displays message 'No items for category id : 11'
 
 ## Requirements
 1 MySQL

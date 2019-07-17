@@ -1,12 +1,18 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const db = require('./db/index.js');
+require('dotenv').config();
+
+const port = process.env.PORT;
 
 const app = express();
 
-app.set('port', 3004);
+app.set('port', port);
 
 app.use(express.static(path.join(__dirname, '/../public')));
+
+app.use(cors());
 
 // returns all alsovieweditems
 app.get('/api/alsovieweditems', (req, res) => {

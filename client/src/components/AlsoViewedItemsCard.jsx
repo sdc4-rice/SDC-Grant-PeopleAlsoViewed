@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import $ from 'jquery';
 import AlsoViewedItemsList from './AlsoViewedItemsList.jsx';
 
 
@@ -121,17 +122,16 @@ class AlsoViewedItemsCard extends React.Component {
   componentDidMount() {
     const { categoryId } = this.state;
 
-    fetch(`http://localhost:3004/api/alsovieweditems/categoryid/${categoryId}`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error('Something went wrong....');
-      })
-      .then(data => this.setState({
-        alsoViewedItems: data, totalPages: calculatePages(data.length),
-      }))
-      .catch(console.log);
+    $.ajax({
+      url: `/api/alsovieweditems/categoryid/${categoryId}`,
+      method: 'GET',
+      success: (data) => {
+        this.setState({
+          alsoViewedItems: data, totalPages: calculatePages(data.length),
+        });
+      },
+      error: (err) => { console.log('error msg' + err); },
+    });
   }
 
   cardClickRight() {
