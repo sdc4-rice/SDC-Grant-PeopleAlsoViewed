@@ -114,6 +114,7 @@ class AlsoViewedItemsCard extends React.Component {
       currentPage: 1,
       totalPages: 0,
       click: true,
+      noItemsFlag: false,
     };
     this.cardClickRight = this.cardClickRight.bind(this);
     this.cardClickLeft = this.cardClickLeft.bind(this);
@@ -123,11 +124,14 @@ class AlsoViewedItemsCard extends React.Component {
     const { categoryId } = this.state;
 
     $.ajax({
-      url: `/api/alsovieweditems/categoryid/${categoryId}`,
+      url: `http://localhost:3004/api/alsovieweditems/categoryid/
+      ${categoryId}`,
       method: 'GET',
       success: (data) => {
         this.setState({
-          alsoViewedItems: data, totalPages: calculatePages(data.length),
+          alsoViewedItems: data,
+          totalPages: calculatePages(data.length),
+          noItemsFlag: true && data.length === 0,
         });
       },
       error: (err) => { console.log('error msg' + err); },
@@ -160,7 +164,8 @@ class AlsoViewedItemsCard extends React.Component {
 
   render() {
     const {
-      categoryId, alsoViewedItems, startIndex, endIndex, currentPage, totalPages, click,
+      categoryId, alsoViewedItems, startIndex, endIndex,
+      currentPage, totalPages, click, noItemsFlag,
     } = this.state;
     return (
       <CardContainerDiv>
@@ -172,7 +177,12 @@ class AlsoViewedItemsCard extends React.Component {
             {
               alsoViewedItems.length
                 ? <PaginationSpan>{currentPage}/{totalPages}</PaginationSpan>
-                : <PaginationSpan>No Items for category id :  {categoryId}</PaginationSpan>
+                : <PaginationSpan></PaginationSpan>
+            }
+            {
+              noItemsFlag
+                ? <PaginationSpan>No Items for category id : {categoryId}</PaginationSpan>
+                : <PaginationSpan></PaginationSpan>
             }
             <FeedbackLink href="https://www.ebay.com">Feedback on our suggestions</FeedbackLink>
           </HeaderDiv>
