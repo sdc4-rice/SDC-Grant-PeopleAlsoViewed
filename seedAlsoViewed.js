@@ -3,9 +3,10 @@ const faker = require('faker');
 require('dotenv').config();
 
 const dbConnection = mysql.createConnection({
-  user: 'root', // FILL IN WITH YOUR USERNAME
-  password: '', // FILL IN WITH YOUR PASSWORD
-  database: 'alsoviewed', // DON'T CHANGE
+  host: process.env.MYSQL_DB_HOST || 'localhost',
+  user: process.env.MYSQL_DB_USERNAME || 'root',
+  password: process.env.MYSQL_DB_PASSWORD || '',
+  database: process.env.MYSQL_DB_DATABASE || 'alsoviewed',
 });
 
 dbConnection.connect((err) => {

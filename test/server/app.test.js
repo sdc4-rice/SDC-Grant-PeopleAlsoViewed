@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../../server/app.js');
-
+require('dotenv').config();
 
 test('GET request on /api/alsovieweditems should return TOTAL_ITEMS spcified in .env file', (done) => {
   request(app)
