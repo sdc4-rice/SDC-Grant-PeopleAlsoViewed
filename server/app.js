@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const db = require('./db/index.js');
 require('dotenv').config();
 
@@ -10,7 +9,7 @@ const app = express();
 
 app.set('port', port);
 
-app.use(express.static(path.join(__dirname, '/../public')));
+app.use(express.static('public'));
 
 app.use(cors());
 
