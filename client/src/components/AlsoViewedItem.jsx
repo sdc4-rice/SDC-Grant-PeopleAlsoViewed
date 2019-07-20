@@ -29,7 +29,7 @@ const ItemLi = styled.li`
       return slideInFromLeft;
     }
     return slideInFromRight;
-  }} 1s ease-out 0s 1;
+  }} 0.5s ease-out 0s 1;
 `;
 
 const ItemDiv = styled.div`
