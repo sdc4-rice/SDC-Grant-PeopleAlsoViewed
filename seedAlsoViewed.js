@@ -1,30 +1,5 @@
-const mysql = require('mysql');
 const faker = require('faker');
-require('dotenv').config();
-
-const dbConnection = mysql.createConnection({
-  host: process.env.MYSQL_DB_HOST || 'localhost',
-  user: process.env.MYSQL_DB_USERNAME || 'root',
-  password: process.env.MYSQL_DB_PASSWORD || '',
-  database: process.env.MYSQL_DB_DATABASE || 'alsoviewed',
-});
-
-dbConnection.connect((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('database connected: success');
-  }
-});
-
-dbConnection.query('truncate alsovieweditems', (err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('truncated table \'alsovieweditems\' before seeding');
-  }
-});
-
+const { ViewedItem, sequelize } = require('./server/db/index.js');
 
 // generates random product company / brand name
 const getItemTitle = () => faker.commerce.productName();
@@ -73,39 +48,49 @@ const getShippingCost = (freeShipping) => {
 };
 
 // generates random categoryId between range provided in .env file otherwise default 1 to 10
-const startCategoryId = Number(process.env.START_CATEGORY_ID) || 1;
-const endCategoryId = Number(process.env.END_CATEGORY_ID) || 10;
+const startCategoryId = 1;
+const endCategoryId = 1000;
 const getCategoryId = () => faker.random.number({ min: startCategoryId, max: endCategoryId });
 
 // generate seed data with ids provided otherwise default from 101 to 200 to given
-const seedAlsoViewedItems = [];
-const startId = Number(process.env.START_ITEM_ID) || 101;
-const endId = Number(process.env.END_ITEM_ID) || 200;
+const seeding = async () => {
+  // ViewedItem.sync({ force: true });
+  console.time('SeedingTime');
+  let seedAlsoViewedItems = [];
+  const startId = 101;
+  const endId = 1000;
 
-for (let i = startId; i <= endId; i += 1) {
-  const id = i;
-  const image = getImageUrl(i);
-  const title = getItemTitle();
-  const itemUrl = image;
-  const oldPrice = getOldPrice();
-  const currentPrice = getCurrentPrice(oldPrice);
-  const freeSheeping = getFreeShipping();
-  const shippingCost = getShippingCost(freeSheeping);
-  const categoryId = getCategoryId();
+  for (let i = startId; i <= endId; i += 1) {
+    const id = i;
+    const image = getImageUrl(faker.random.number({ min: 101, max: 200 }));
+    const title = getItemTitle();
+    const itemUrl = image;
+    const oldPrice = getOldPrice();
+    const currentPrice = getCurrentPrice(oldPrice);
+    const freeSheeping = getFreeShipping();
+    const shippingCost = getShippingCost(freeSheeping);
+    const categoryId = getCategoryId();
 
-  seedAlsoViewedItems.push([id, image, title, itemUrl, oldPrice,
-    currentPrice, freeSheeping, shippingCost, categoryId]);
-}
-
-// insert seed data
-const queryString = 'insert into alsovieweditems (id, image, title, itemUrl, oldprice, currentprice, freeshipping, shippingcost, categoryid) values ?';
-const queryArgs = seedAlsoViewedItems;
-
-dbConnection.query(queryString, [queryArgs], (err) => {
-  if (err) {
-    throw err;
+    seedAlsoViewedItems.push({
+      id,
+      image,
+      title,
+      itemUrl,
+      oldPrice,
+      currentPrice,
+      freeSheeping,
+      shippingCost,
+      categoryId,
+    });
+    if (seedAlsoViewedItems.length === 75000) {
+      await ViewedItem.bulkCreate(seedAlsoViewedItems);
+      seedAlsoViewedItems = [];
+    }
   }
+  await ViewedItem.bulkCreate(seedAlsoViewedItems);
+  console.timeEnd('SeedingTime');
+};
+// ViewedItem.sync({ force: true }).then(() => ViewedItem.bulkCreate(seedAlsoViewedItems));
 
-  console.log('seeding data completed closing database connection');
-  dbConnection.end();
-});
+
+ViewedItem.sync({ force: true }).then(() => seeding()).then(() => console.log('done seeding'));

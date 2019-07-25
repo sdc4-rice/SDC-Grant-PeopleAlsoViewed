@@ -23,11 +23,6 @@ Create .env file in root folder of your project and specify following
 // set port number for express server
 PORT=3004
 
-// configure database
-MYSQL_DB_HOST=localhost
-MYSQL_DB_USERNAME=root
-MYSQL_DB_PASSWORD=
-MYSQL_DB_DATABASE=alsoviewed
 
 // specify total number of items to seed, with their start id, end id
 TOTAL_ITEMS=100
@@ -62,8 +57,15 @@ database
 
 4 Presently database is setup with category ids between 1 to 8, if id = 11 is specified in `http://localhost:3004/?id=11` then page displays message 'No items for category id : 11'
 
+## API Endpoints
+Get: /api/alsovieweditems -> gets all items
+Get: /api/alsovieweditems/categoryid/:categoryId -> gets all category id's
+Post: /api/alsovieweditems/newitem -> creates new item
+Put:  /api/alsovieweditems/update/:id -> changes title
+Delete: /api/alsovieweditems/id/:id -> deletes item by id
+
 ## Requirements
-1 MySQL
+1 PostgreSQL
 
 ## Development
 

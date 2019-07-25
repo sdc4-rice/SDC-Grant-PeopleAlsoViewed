@@ -1,20 +1,23 @@
-const mysql = require('mysql');
-require('dotenv').config();
+const Sequelize = require('sequelize');
 
-const db = mysql.createConnection({
-  host: process.env.MYSQL_DB_HOST || 'localhost',
-  user: process.env.MYSQL_DB_USERNAME || 'root',
-  password: process.env.MYSQL_DB_PASSWORD || '',
-  database: process.env.MYSQL_DB_DATABASE || 'alsoviewed',
-});
+const sequelize = new Sequelize('postgres://postgres@localhost:5432/alsoviewed', { logging: false });
+const { Model } = Sequelize;
 
+class ViewedItem extends Model {}
 
-db.connect((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('Connected to database alsoviewed: success');
-  }
-});
+ViewedItem.init({
+  id: {
+    type: Sequelize.DECIMAL,
+    primaryKey: true,
+  },
+  image: Sequelize.STRING,
+  title: Sequelize.STRING,
+  itemUrl: Sequelize.STRING,
+  oldPrice: Sequelize.DECIMAL,
+  currentPrice: Sequelize.DECIMAL,
+  freeSheeping: Sequelize.BOOLEAN,
+  shippingCost: Sequelize.DECIMAL,
+  categoryId: Sequelize.INTEGER,
+}, { sequelize, modelName: 'vieweditems' });
 
-module.exports = db;
+module.exports = { ViewedItem, sequelize };
