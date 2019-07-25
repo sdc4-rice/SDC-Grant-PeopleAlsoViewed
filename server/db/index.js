@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('postgres://postgres@localhost:5432/alsoviewed');
+const sequelize = new Sequelize('postgres://postgres@localhost:5432/alsoviewed', { logging: false });
 const { Model } = Sequelize;
 
 class ViewedItem extends Model {}
