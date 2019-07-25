@@ -55,9 +55,10 @@ const getCategoryId = () => faker.random.number({ min: startCategoryId, max: end
 // generate seed data with ids provided otherwise default from 101 to 200 to given
 const seeding = async () => {
   // ViewedItem.sync({ force: true });
+  console.time('SeedingTime');
   let seedAlsoViewedItems = [];
   const startId = 101;
-  const endId = 20000000;
+  const endId = 500000;
 
   for (let i = startId; i <= endId; i += 1) {
     const id = i;
@@ -81,13 +82,15 @@ const seeding = async () => {
       shippingCost,
       categoryId,
     });
-    if (seedAlsoViewedItems.length === 70000) {
+    if (seedAlsoViewedItems.length === 100000) {
       await ViewedItem.bulkCreate(seedAlsoViewedItems);
       seedAlsoViewedItems = [];
     }
   }
   await ViewedItem.bulkCreate(seedAlsoViewedItems);
+  console.timeEnd('SeedingTime');
 };
 // ViewedItem.sync({ force: true }).then(() => ViewedItem.bulkCreate(seedAlsoViewedItems));
+
 
 ViewedItem.sync({ force: true }).then(() => seeding()).then(() => console.log('done seeding'));
