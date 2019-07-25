@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const db = require('./db/index.js').sequelize;
+const db = require('./db/index.js');
 require('dotenv').config();
 
 const port = process.env.PORT;
@@ -15,20 +15,20 @@ app.use(cors());
 
 // returns all alsovieweditems
 app.get('/api/alsovieweditems', (req, res) => {
-  const queryString = 'select * from ViewedItem';
+  const queryString = 'select * from alsovieweditems';
   const queryArgs = [];
 
-  db.query(queryString, queryArgs, (err, results) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-      res.end();
-    } else {
-      console.log(results)
-      res.status(200).json(results);
-      res.end();
-    }
-  });
+  // db.query(queryString, queryArgs, (err, results) => {
+  //   if (err) {
+  //     console.log(err);
+  //     res.status(500).send();
+  //     res.end();
+  //   } else {
+  //     res.status(200).json(results);
+  //     res.end();
+  //   }
+  // });
+  return db.findAll().then(data => res.json(data));
 });
 
 // returns all categoryids assigned to items
@@ -58,17 +58,19 @@ app.get('/api/alsovieweditems/categoryids', (req, res) => {
 app.get('/api/alsovieweditems/categoryid/:categoryId', (req, res) => {
   const queryString = 'select * from alsovieweditems where categoryid = ?';
   const queryArgs = [req.params.categoryId];
+  console.log(queryArgs);
 
-  db.query(queryString, queryArgs, (err, results) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-      res.end();
-    } else {
-      res.status(200).json(results);
-      res.end();
-    }
-  });
+  // db.query(queryString, queryArgs, (err, results) => {
+  //   if (err) {
+  //     console.log(err);
+  //     res.status(500).send();
+  //     res.end();
+  //   } else {
+  //     res.status(200).json(results);
+  //     res.end();
+  //   }
+  // });
+  return db.findAll({ where: { categoryId: JSON.parse(queryArgs) } }).then(data => res.json(data));
 });
 
 // returns items within given range
@@ -87,6 +89,13 @@ app.get('/api/alsovieweditems/startid/:startId/endid/:endId', (req, res) => {
     }
   });
 });
+app.post('/api/alsovieweditems/newitem', (req, res) => db.create(req.body).then(results => res.send(results)));
+app.delete('/api/alsovieweditems/id/:id', (req, res) => db.destroy({ where: { id: req.params.id } }).then(() => res.sendStatus(200)));
+app.post('/api/alsovieweditems/update/:id', (req, res) => db.update({
+  title: req.body.title,
+}, {
+  where: { id: req.body.id },
+}));
 
 app.listen(app.get('port'), () => {
   console.log(`peopleAlsoViewed is listening on : ${app.get('port')}`);

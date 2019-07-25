@@ -60,7 +60,7 @@ const seeding = async () => {
   const endId = Number(process.env.END_ITEM_ID) || 10000000;
 
   for (let i = startId; i <= endId; i += 1) {
-    console.log(seedAlsoViewedItems.length)
+    console.log(seedAlsoViewedItems.length);
     const id = i;
     const image = getImageUrl(i);
     const title = getItemTitle();
@@ -82,13 +82,13 @@ const seeding = async () => {
       shippingCost,
       categoryId,
     });
-    if(seedAlsoViewedItems.length === 50000) {
+    if (seedAlsoViewedItems.length === 50000) {
       await ViewedItem.bulkCreate(seedAlsoViewedItems);
-      seedAlsoViewedItems = []
+      seedAlsoViewedItems = [];
     }
   }
   await ViewedItem.bulkCreate(seedAlsoViewedItems);
-}
-//ViewedItem.sync({ force: true }).then(() => ViewedItem.bulkCreate(seedAlsoViewedItems));
+};
+// ViewedItem.sync({ force: true }).then(() => ViewedItem.bulkCreate(seedAlsoViewedItems));
 
 seeding();

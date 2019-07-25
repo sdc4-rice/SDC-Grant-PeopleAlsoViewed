@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('postgres://postgres@localhost:5432/alsoviewed');
-const Model = Sequelize.Model;
+const { Model } = Sequelize;
 
-class ViewedItem extends Model {};
+class ViewedItem extends Model {}
 
 ViewedItem.init({
   id: {
