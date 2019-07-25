@@ -1,30 +1,6 @@
-const mysql = require('mysql');
 const faker = require('faker');
-require('dotenv').config();
-
-const dbConnection = mysql.createConnection({
-  host: process.env.MYSQL_DB_HOST || 'localhost',
-  user: process.env.MYSQL_DB_USERNAME || 'root',
-  password: process.env.MYSQL_DB_PASSWORD || '',
-  database: process.env.MYSQL_DB_DATABASE || 'alsoviewed',
-});
-
-dbConnection.connect((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('database connected: success');
-  }
-});
-
-dbConnection.query('truncate alsovieweditems', (err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('truncated table \'alsovieweditems\' before seeding');
-  }
-});
-
+const ViewedItem = require('./server/db/index.js');
+//require('dotenv').config();
 
 // generates random product company / brand name
 const getItemTitle = () => faker.commerce.productName();
@@ -80,7 +56,7 @@ const getCategoryId = () => faker.random.number({ min: startCategoryId, max: end
 // generate seed data with ids provided otherwise default from 101 to 200 to given
 const seedAlsoViewedItems = [];
 const startId = Number(process.env.START_ITEM_ID) || 101;
-const endId = Number(process.env.END_ITEM_ID) || 200;
+const endId = Number(process.env.END_ITEM_ID) || 1000;
 
 for (let i = startId; i <= endId; i += 1) {
   const id = i;
@@ -93,19 +69,7 @@ for (let i = startId; i <= endId; i += 1) {
   const shippingCost = getShippingCost(freeSheeping);
   const categoryId = getCategoryId();
 
-  seedAlsoViewedItems.push([id, image, title, itemUrl, oldPrice,
-    currentPrice, freeSheeping, shippingCost, categoryId]);
+  seedAlsoViewedItems.push({id, image, title, itemUrl, oldPrice,
+    currentPrice, freeSheeping, shippingCost, categoryId});
 }
-
-// insert seed data
-const queryString = 'insert into alsovieweditems (id, image, title, itemUrl, oldprice, currentprice, freeshipping, shippingcost, categoryid) values ?';
-const queryArgs = seedAlsoViewedItems;
-
-dbConnection.query(queryString, [queryArgs], (err) => {
-  if (err) {
-    throw err;
-  }
-
-  console.log('seeding data completed closing database connection');
-  dbConnection.end();
-});
+ViewedItem.sync({force: true}).then(()=>ViewedItem.bulkCreate(seedAlsoViewedItems))

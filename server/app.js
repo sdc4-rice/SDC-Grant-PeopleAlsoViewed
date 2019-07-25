@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const db = require('./db/index.js');
+const db = require('./db/index.js').sequelize;
 require('dotenv').config();
 
 const port = process.env.PORT;
@@ -15,7 +15,7 @@ app.use(cors());
 
 // returns all alsovieweditems
 app.get('/api/alsovieweditems', (req, res) => {
-  const queryString = 'select * from alsovieweditems';
+  const queryString = 'select * from ViewedItem';
   const queryArgs = [];
 
   db.query(queryString, queryArgs, (err, results) => {
@@ -24,6 +24,7 @@ app.get('/api/alsovieweditems', (req, res) => {
       res.status(500).send();
       res.end();
     } else {
+      console.log(results)
       res.status(200).json(results);
       res.end();
     }
