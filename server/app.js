@@ -91,7 +91,7 @@ app.get('/api/alsovieweditems/startid/:startId/endid/:endId', (req, res) => {
 });
 app.post('/api/alsovieweditems/newitem', (req, res) => db.create(req.body).then(results => res.send(results)));
 app.delete('/api/alsovieweditems/id/:id', (req, res) => db.destroy({ where: { id: req.params.id } }).then(() => res.sendStatus(200)));
-app.post('/api/alsovieweditems/update/:id', (req, res) => db.update({
+app.put('/api/alsovieweditems/update/:id', (req, res) => db.update({
   title: req.body.title,
 }, {
   where: { id: req.body.id },
