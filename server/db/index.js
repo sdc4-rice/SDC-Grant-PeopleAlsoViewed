@@ -20,5 +20,4 @@ ViewedItem.init({
   categoryId: Sequelize.INTEGER,
 }, { sequelize, modelName: 'vieweditems' });
 
-module.exports = ViewedItem;
-exports.sequelize = sequelize;
+module.exports = { ViewedItem, sequelize };

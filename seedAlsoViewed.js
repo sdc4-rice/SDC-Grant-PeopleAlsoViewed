@@ -1,5 +1,5 @@
 const faker = require('faker');
-const ViewedItem = require('./server/db/index.js');
+const { ViewedItem, sequelize } = require('./server/db/index.js');
 
 // generates random product company / brand name
 const getItemTitle = () => faker.commerce.productName();
@@ -58,7 +58,7 @@ const seeding = async () => {
   console.time('SeedingTime');
   let seedAlsoViewedItems = [];
   const startId = 101;
-  const endId = 500000;
+  const endId = 1000;
 
   for (let i = startId; i <= endId; i += 1) {
     const id = i;
@@ -82,7 +82,7 @@ const seeding = async () => {
       shippingCost,
       categoryId,
     });
-    if (seedAlsoViewedItems.length === 100000) {
+    if (seedAlsoViewedItems.length === 75000) {
       await ViewedItem.bulkCreate(seedAlsoViewedItems);
       seedAlsoViewedItems = [];
     }
