@@ -56,12 +56,14 @@ database
 3 If no id is specified it takes default id = 1 (This option is just used for testing and integration)
 
 4 Presently database is setup with category ids between 1 to 8, if id = 11 is specified in `http://localhost:3004/?id=11` then page displays message 'No items for category id : 11'
-##API Endpoints
+
+## API Endpoints
 Get: /api/alsovieweditems -> gets all items
 Get: /api/alsovieweditems/categoryid/:categoryId -> gets all category id's
 Post: /api/alsovieweditems/newitem -> creates new item
 Put:  /api/alsovieweditems/update/:id -> changes title
 Delete: /api/alsovieweditems/id/:id -> deletes item by id
+
 ## Requirements
 1 PostgreSQL
 
