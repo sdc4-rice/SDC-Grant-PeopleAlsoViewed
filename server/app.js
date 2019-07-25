@@ -9,6 +9,8 @@ const app = express();
 
 app.set('port', port);
 
+app.use(express.json());
+
 app.use(express.static('public'));
 
 app.use(cors());
@@ -56,21 +58,9 @@ app.get('/api/alsovieweditems/categoryids', (req, res) => {
 
 // return list of items with given categoryid
 app.get('/api/alsovieweditems/categoryid/:categoryId', (req, res) => {
-  const queryString = 'select * from alsovieweditems where categoryid = ?';
   const queryArgs = [req.params.categoryId];
-  console.log(queryArgs);
 
-  // db.query(queryString, queryArgs, (err, results) => {
-  //   if (err) {
-  //     console.log(err);
-  //     res.status(500).send();
-  //     res.end();
-  //   } else {
-  //     res.status(200).json(results);
-  //     res.end();
-  //   }
-  // });
-  return db.findAll({ where: { categoryId: JSON.parse(queryArgs) } }).then(data => res.json(data));
+  return db.findAll({ where: { categoryId: JSON.parse(queryArgs) } }).then(results => res.send(results));
 });
 
 // returns items within given range

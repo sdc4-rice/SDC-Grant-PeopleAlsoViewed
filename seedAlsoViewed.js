@@ -48,21 +48,20 @@ const getShippingCost = (freeShipping) => {
 };
 
 // generates random categoryId between range provided in .env file otherwise default 1 to 10
-const startCategoryId = Number(process.env.START_CATEGORY_ID) || 1;
-const endCategoryId = Number(process.env.END_CATEGORY_ID) || 10;
+const startCategoryId = 1;
+const endCategoryId = 1000;
 const getCategoryId = () => faker.random.number({ min: startCategoryId, max: endCategoryId });
 
 // generate seed data with ids provided otherwise default from 101 to 200 to given
 const seeding = async () => {
-  ViewedItem.sync({ force: true });
-  let seedAlsoViewedItems = [];
-  const startId = Number(process.env.START_ITEM_ID) || 101;
-  const endId = Number(process.env.END_ITEM_ID) || 10000000;
+  // ViewedItem.sync({ force: true });
+  const seedAlsoViewedItems = [];
+  const startId = 101;
+  const endId = 200000;
 
   for (let i = startId; i <= endId; i += 1) {
-    // console.log(seedAlsoViewedItems.length);
     const id = i;
-    const image = getImageUrl(i);
+    const image = getImageUrl(faker.random.number({ min: 101, max: 200 }));
     const title = getItemTitle();
     const itemUrl = image;
     const oldPrice = getOldPrice();
@@ -82,12 +81,12 @@ const seeding = async () => {
       shippingCost,
       categoryId,
     });
-    if (i % 50000 === 0) {
-      await ViewedItem.bulkCreate(seedAlsoViewedItems);
-      seedAlsoViewedItems = [];
-    }
+    // if (seedAlsoViewedItems.length === 50000) {
+    //   await ViewedItem.bulkCreate(seedAlsoViewedItems);
+    //   seedAlsoViewedItems = [];
+    // }
   }
-  await ViewedItem.bulkCreate(seedAlsoViewedItems);
+  await ViewedItem.sync({ force: true }).then(() => ViewedItem.bulkCreate(seedAlsoViewedItems));
 };
 // ViewedItem.sync({ force: true }).then(() => ViewedItem.bulkCreate(seedAlsoViewedItems));
 

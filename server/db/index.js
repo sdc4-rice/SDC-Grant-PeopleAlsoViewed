@@ -18,7 +18,7 @@ ViewedItem.init({
   freeSheeping: Sequelize.BOOLEAN,
   shippingCost: Sequelize.DECIMAL,
   categoryId: Sequelize.INTEGER,
-}, { sequelize, modelName: 'vieweditem' });
+}, { sequelize, modelName: 'vieweditems' });
 
 module.exports = ViewedItem;
 exports.sequelize = sequelize;
