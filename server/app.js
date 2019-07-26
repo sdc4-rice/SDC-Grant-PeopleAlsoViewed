@@ -3,7 +3,7 @@ const cors = require('cors');
 const db = require('./db/index.js');
 require('dotenv').config();
 
-const port = process.env.PORT;
+const port = 3004;
 
 const app = express();
 
@@ -45,7 +45,7 @@ app.get('/api/alsovieweditems/categoryids', (req, res) => {
 app.get('/api/alsovieweditems/categoryid/:categoryId', (req, res) => {
   const queryArgs = [req.params.categoryId];
 
-  return db.findAll({ where: { categoryId: JSON.parse(queryArgs) } }).then(results => res.send(results));
+  return db.findAll({ where: { categoryid: JSON.parse(queryArgs) } }).then(results => res.send(results));
 });
 
 // returns items within given range

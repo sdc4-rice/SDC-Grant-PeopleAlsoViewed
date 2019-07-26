@@ -12,12 +12,13 @@ ViewedItem.init({
   },
   image: Sequelize.STRING,
   title: Sequelize.STRING,
-  itemUrl: Sequelize.STRING,
-  oldPrice: Sequelize.DECIMAL,
-  currentPrice: Sequelize.DECIMAL,
-  freeSheeping: Sequelize.BOOLEAN,
-  shippingCost: Sequelize.DECIMAL,
-  categoryId: Sequelize.INTEGER,
+  itemurl: Sequelize.STRING,
+  oldprice: Sequelize.DECIMAL,
+  currentprice: Sequelize.DECIMAL,
+  freesheeping: Sequelize.BOOLEAN,
+  shippingcost: Sequelize.DECIMAL,
+  categoryid: Sequelize.INTEGER,
 }, { sequelize, modelName: 'vieweditems' });
 
-module.exports = { ViewedItem, sequelize };
+module.exports = ViewedItem;
+exports.sequelize = sequelize;
