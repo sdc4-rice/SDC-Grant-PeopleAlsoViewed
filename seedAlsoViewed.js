@@ -49,7 +49,11 @@ const getShippingCost = (freeShipping) => {
 
 // generates random categoryId between range provided in .env file otherwise default 1 to 10
 const startCategoryId = 1;
+<<<<<<< HEAD
 const endCategoryId = 10000000;
+=======
+const endCategoryId = 1000;
+>>>>>>> cd96a7530b94b7a19da12698b6e01a23b8da5f53
 const getCategoryId = () => faker.random.number({ min: startCategoryId, max: endCategoryId });
 
 // generate seed data with ids provided otherwise default from 101 to 200 to given
@@ -58,7 +62,11 @@ const seeding = async () => {
   console.time('SeedingTime');
   let seedAlsoViewedItems = [];
   const startId = 101;
+<<<<<<< HEAD
   const endId = 20000000;
+=======
+  const endId = 1000;
+>>>>>>> cd96a7530b94b7a19da12698b6e01a23b8da5f53
 
   for (let i = startId; i <= endId; i += 1) {
     const id = i;
