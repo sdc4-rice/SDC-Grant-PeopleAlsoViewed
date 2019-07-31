@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const db = require('./db/index.js');
+const db = require('./db/cassindex.js');
 require('dotenv').config();
 
-const port = process.env.PORT;
+const port = 3004;
 
 const app = express();
 
@@ -43,9 +43,15 @@ app.get('/api/alsovieweditems/categoryids', (req, res) => {
 
 // return list of items with given categoryid
 app.get('/api/alsovieweditems/categoryid/:categoryId', (req, res) => {
+<<<<<<< HEAD
+  const queryArgs = ( req.params.categoryid);
+  return db.getCategoryId(queryArgs)
+  //return db.findAll({ where: { categoryid: JSON.parse(queryArgs) } }).then(results => res.send(results));
+=======
   const queryArgs = [req.params.categoryId];
 
-  return db.findAll({ where: { categoryId: JSON.parse(queryArgs) } }).then(results => res.send(results));
+  return db.findAll({ where: { categoryid: JSON.parse(queryArgs) } }).then(results => res.send(results));
+>>>>>>> cd96a7530b94b7a19da12698b6e01a23b8da5f53
 });
 
 // returns items within given range
