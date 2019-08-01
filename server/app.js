@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const db = require('./db/cassindex.js');
+const db = require('./db/index.js');
 require('dotenv').config();
 
 const port = 3004;
@@ -43,7 +43,9 @@ app.get('/api/alsovieweditems/categoryids', (req, res) => {
 
 // return list of items with given categoryid
 app.get('/api/alsovieweditems/categoryid/:categoryId', (req, res) => {
-  const queryArgs = ( req.params.categoryid);
+
+  const queryArgs = ( req.params.categoryId);
+
   return db.findAll({ where: { categoryid: JSON.parse(queryArgs) } }).then(results => res.send(results));
 });
 
