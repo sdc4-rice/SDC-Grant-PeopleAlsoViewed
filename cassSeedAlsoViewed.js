@@ -54,16 +54,15 @@ const getShippingCost = (freeShipping) => {
 
 // generates random categoryId between range provided in .env file otherwise default 1 to 10
 const startCategoryId = 1;
-const endCategoryId = 10000000;
+const endCategoryId = 100;
 const getCategoryId = () => faker.random.number({ min: startCategoryId, max: endCategoryId });
 
 // generate seed data with ids provided otherwise default from 101 to 200 to given
 async function seeding() {
   // ViewedItem.sync({ force: true });
   console.time('SeedingTime');
-  const seedAlsoViewedItems = [];
   const startId = 101;
-  const endId = 20002000;
+  const endId = 1000000;
   writer.pipe(fs.createWriteStream('cassCSV2.csv'));
   for (let i = startId; i <= endId; i += 1) {
     const oldprice = getOldPrice();
@@ -79,11 +78,11 @@ async function seeding() {
       freesheeping: freesheeping,
       shippingcost: getShippingCost(freesheeping),
       categoryid: getCategoryId(),
-    })){
+    })) {
       await new Promise ((resolve) => writer.once('drain', resolve))
     }
   }
-  writer.end()
+  writer.end();
   console.timeEnd('SeedingTime');
 }
 // ViewedItem.sync({ force: true }).then(() => ViewedItem.bulkCreate(seedAlsoViewedItems));
@@ -94,6 +93,6 @@ async function seeding() {
 //   .then(() => console.log('done seeding'));
 
 // node --max-old-space-size=8192 cassSeedAlsoViewed.js
-seeding();
+seeding().then(()=> console.log('hello'));
 
 // COPY vieweditems ("id", "image", "title", "itemurl", "oldprice", "currentprice", "freesheeping", "shippingcost", "categoryid") FROM '/Users/GrantSteinke/Documents/hrr39/sdc-grant-peoplealsoviewed/cassCSV.csv' with header=true and delimiter=',';

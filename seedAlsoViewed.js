@@ -1,5 +1,10 @@
 const faker = require('faker');
+const cassandra = require('cassandra-driver');
+const fs = require('fs');
+const csvWriter = require('csv-write-stream');
 const ViewedItem = require('./server/db/index.js');
+
+const writer = csvWriter();
 
 // generates random product company / brand name
 const getItemTitle = () => faker.commerce.productName();
@@ -49,56 +54,43 @@ const getShippingCost = (freeShipping) => {
 
 // generates random categoryId between range provided in .env file otherwise default 1 to 10
 const startCategoryId = 1;
-<<<<<<< HEAD
 const endCategoryId = 10000000;
-=======
-const endCategoryId = 1000;
->>>>>>> cd96a7530b94b7a19da12698b6e01a23b8da5f53
 const getCategoryId = () => faker.random.number({ min: startCategoryId, max: endCategoryId });
 
 // generate seed data with ids provided otherwise default from 101 to 200 to given
-const seeding = async () => {
+async function seeding() {
   // ViewedItem.sync({ force: true });
-  console.time('SeedingTime');
-  let seedAlsoViewedItems = [];
-  const startId = 101;
-<<<<<<< HEAD
+  console.time('CSV Complete');
+  const startId = 1;
   const endId = 20000000;
-=======
-  const endId = 1000;
->>>>>>> cd96a7530b94b7a19da12698b6e01a23b8da5f53
-
+  writer.pipe(fs.createWriteStream('cassCSV2.csv'));
   for (let i = startId; i <= endId; i += 1) {
-    const id = i;
-    const image = getImageUrl(faker.random.number({ min: 101, max: 200 }));
-    const title = getItemTitle();
-    const itemurl = image;
     const oldprice = getOldPrice();
-    const currentprice = getCurrentPrice(oldprice);
+    const image = getImageUrl(faker.random.number({ min: 101, max: 200 }));
     const freesheeping = getFreeShipping();
-    const shippingcost = getShippingCost(freesheeping);
-    const categoryid = getCategoryId();
-
-    seedAlsoViewedItems.push({
-      id,
-      image,
-      title,
-      itemurl,
-      oldprice,
-      currentprice,
-      freesheeping,
-      shippingcost,
-      categoryid,
-    });
-    if (seedAlsoViewedItems.length === 75000) {
-      await ViewedItem.bulkCreate(seedAlsoViewedItems);
-      seedAlsoViewedItems = [];
+    if (!writer.write({
+      id: i,
+      image: image,
+      title: getItemTitle(),
+      itemurl: image,
+      oldprice: oldprice,
+      currentprice: getCurrentPrice(oldprice),
+      freesheeping: freesheeping,
+      shippingcost: getShippingCost(freesheeping),
+      categoryid: getCategoryId(),
+    })) {
+      await new Promise ((resolve) => writer.once('drain', resolve))
     }
   }
-  await ViewedItem.bulkCreate(seedAlsoViewedItems);
-  console.timeEnd('SeedingTime');
-};
+  writer.end();
+  console.timeEnd('CSV Complete');
+}
 // ViewedItem.sync({ force: true }).then(() => ViewedItem.bulkCreate(seedAlsoViewedItems));
 
+// ViewedItem.client.connect().then(() => ViewedItem.client.execute('DROP TABLE IF EXISTS vieweditems'))
+//   .then(() => ViewedItem.client.execute(ViewedItem.ViewedItems))
+//   .then(() => seeding())
+//   .then(() => console.log('done seeding'));
 
-ViewedItem.sync({ force: true }).then(() => seeding()).then(() => console.log('done seeding'));
+// node --max-old-space-size=8192 cassSeedAlsoViewed.js
+seeding().then(() => ViewedItem.sequelize.sync({ force: true })).then(() => ViewedItem.sequelize.query(`COPY vieweditems ("id", "image", "title", "itemurl", "oldprice", "currentprice", "freesheeping", "shippingcost", "categoryid") FROM '/Users/GrantSteinke/Documents/hrr39/sdc-grant-peoplealsoviewed/cassCSV2.csv' with (format csv, header true);`)).then(() => ViewedItem.sequelize.query(`create index viewedindex on vieweditems(categoryid)`))

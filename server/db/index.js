@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('postgres://postgres@localhost:5432/alsoviewed', { logging: false });
+const sequelize = new Sequelize('postgres://postgres@localhost:5432/alsoviewed', {
+  logging: false,
+});
 const { Model } = Sequelize;
 
 class ViewedItem extends Model {}
@@ -18,7 +20,7 @@ ViewedItem.init({
   freesheeping: Sequelize.BOOLEAN,
   shippingcost: Sequelize.DECIMAL,
   categoryid: Sequelize.INTEGER,
-}, { sequelize, modelName: 'vieweditems' });
+}, { sequelize, modelName: 'vieweditems', timestamps: false });
 
 module.exports = ViewedItem;
 exports.sequelize = sequelize;
