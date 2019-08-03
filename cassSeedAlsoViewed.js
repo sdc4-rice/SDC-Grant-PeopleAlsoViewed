@@ -93,6 +93,6 @@ async function seeding() {
 //   .then(() => console.log('done seeding'));
 
 // node --max-old-space-size=8192 cassSeedAlsoViewed.js
-seeding().then(()=> console.log('hello'));
+seeding().then(() => console.log('hello'));
 
 // COPY vieweditems ("id", "image", "title", "itemurl", "oldprice", "currentprice", "freesheeping", "shippingcost", "categoryid") FROM '/Users/GrantSteinke/Documents/hrr39/sdc-grant-peoplealsoviewed/cassCSV.csv' with header=true and delimiter=',';

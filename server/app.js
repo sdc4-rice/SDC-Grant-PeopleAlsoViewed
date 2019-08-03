@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./db/index.js');
+require('newrelic');
 require('dotenv').config();
 
 const port = 3004;
